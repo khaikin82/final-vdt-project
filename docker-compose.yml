@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   app:
     build:
@@ -7,8 +9,10 @@ services:
       - "${SERVER_PORT}:18080"
     env_file: .env
     depends_on:
-      - mysql
-      - redis
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     networks:
       - backend
 
@@ -33,14 +37,15 @@ services:
 
   redis:
     image: redis:7
+    container_name: redis
     ports:
       - "6380:6379"
     networks:
       - backend
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
+      test: ["CMD", "redis-cli", "-h", "localhost", "ping"]
+      interval: 5s
+      timeout: 3s
       retries: 5
 
   frontend:
