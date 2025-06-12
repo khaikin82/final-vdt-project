@@ -51,3 +51,5 @@ Thumbs.db
 /frontend/package-lock.json
 /frontend/yarn.lock
 /frontend/pnpm-lock.yaml
+backend/order_tracking_history.sql
+backend/orders_output.sql
