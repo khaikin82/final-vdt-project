@@ -16,7 +16,6 @@ Thumbs.db
 
 # Environment files
 .env
-.env.*
 
 
 # ========== Backend (Spring Boot - Maven or Gradle) ==========
