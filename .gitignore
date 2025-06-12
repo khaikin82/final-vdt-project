@@ -1,0 +1,53 @@
+# ========== Global Ignore ==========
+# OS / Editor / Tool files
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.swp
+*.swo
+
+# IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+# Environment files
+.env
+.env.*
+
+
+# ========== Backend (Spring Boot - Maven or Gradle) ==========
+/backend/target/
+/backend/build/
+/backend/.mvn/
+/backend/.gradle/
+/backend/*.log
+/backend/*.jar
+/backend/*.war
+/backend/*.ear
+
+# Optional: if using wrapper
+/backend/mvnw
+/backend/mvnw.cmd
+/backend/gradlew
+/backend/gradlew.bat
+
+
+# ========== Frontend (ReactJS) ==========
+/frontend/node_modules/
+/frontend/build/
+/frontend/dist/
+/frontend/coverage/
+/frontend/*.log
+
+# Environment files
+/frontend/.env*
+!/frontend/.env.example
+
+# Lock files (if needed)
+/frontend/package-lock.json
+/frontend/yarn.lock
+/frontend/pnpm-lock.yaml
