@@ -11,8 +11,8 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
-      redis:
-        condition: service_healthy
+      # redis:
+      #   condition: service_healthy
     networks:
       - backend
 
@@ -35,25 +35,25 @@ services:
       timeout: 5s
       retries: 5
 
-  redis:
-    image: redis:7
-    container_name: redis
-    ports:
-      - "6380:6379"
-    networks:
-      - backend
-    healthcheck:
-      test: ["CMD", "redis-cli", "-h", "localhost", "ping"]
-      interval: 5s
-      timeout: 3s
-      retries: 5
+  # redis:
+  #   image: redis:7
+  #   container_name: redis
+  #   ports:
+  #     - "6380:6379"
+  #   networks:
+  #     - backend
+  #   healthcheck:
+  #     test: ["CMD", "redis-cli", "-h", "localhost", "ping"]
+  #     interval: 5s
+  #     timeout: 3s
+  #     retries: 5
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "3000:80"
+      - "3010:80"
     depends_on:
       - app
     networks:

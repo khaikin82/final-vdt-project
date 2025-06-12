@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -36,6 +37,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
+                .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         // Cho phép truy cập không cần token
@@ -45,26 +47,23 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/swagger-resources/**",
                                 "/swagger-ui.html",
-                                "/api/**"
+                                "/api/v1/orders/code/**",
+                                "/api/v1/orders/*/tracking"
+                                // "/api/**"
                         ).permitAll()
 
-                        // User
-//                        .requestMatchers(HttpMethod.GET, "/api/v1/users/**").hasRole(Role.ADMIN.name())
-//                        .requestMatchers(HttpMethod.PUT, "/api/v1/users/**").hasRole(Role.ADMIN.name())
-//                        .requestMatchers(HttpMethod.DELETE, "/api/v1/users/**").hasRole(Role.ADMIN.name())
-//                        .requestMatchers(HttpMethod.GET, "/api/v1/users").hasRole(Role.ADMIN.name())
+            
 
-                        // Order
+                        // CUSTOMER: tạo và xem đơn hàng của mình
                         .requestMatchers(HttpMethod.POST, "/api/v1/orders").hasRole(Role.CUSTOMER.name())
                         .requestMatchers(HttpMethod.GET, "/api/v1/orders/my").hasRole(Role.CUSTOMER.name())
-//                        .requestMatchers(HttpMethod.GET, "/api/v1/orders/**").hasRole(Role.ADMIN.name())
-//                        .requestMatchers(HttpMethod.PUT, "/api/v1/orders/**").hasRole(Role.ADMIN.name())
-//                        .requestMatchers(HttpMethod.DELETE, "/api/v1/orders/**").hasRole(Role.ADMIN.name())
-//                        .requestMatchers("/api/v1/orders/**/assign").hasRole(Role.ADMIN.name())
-                        .requestMatchers("/api/v1/orders/**/status").hasRole(Role.DELIVERY_STAFF.name())
 
-                        // Tracking
-                        .requestMatchers("/api/v1/tracking/**").hasAnyRole(Role.CUSTOMER.name(), Role.ADMIN.name())
+                         // DELIVERY_STAFF: xem đơn được giao, cập nhật trạng thái
+                        .requestMatchers(HttpMethod.GET, "/api/v1/orders/staff/my").hasRole(Role.DELIVERY_STAFF.name())
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/orders/by-code/*/status").hasRole(Role.DELIVERY_STAFF.name())
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/orders/by-id/*/status").hasRole(Role.DELIVERY_STAFF.name())
+
+
                         .requestMatchers("/api/v1/**").hasRole(Role.ADMIN.name())
                         .anyRequest().authenticated()
                 )

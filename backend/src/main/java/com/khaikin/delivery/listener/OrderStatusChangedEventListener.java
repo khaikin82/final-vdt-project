@@ -7,6 +7,7 @@ import com.khaikin.delivery.repository.OrderTrackingHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -19,6 +20,7 @@ public class OrderStatusChangedEventListener {
     private final OrderTrackingHistoryRepository trackingHistoryRepository;
     private final OrderRepository orderRepository;
 
+    @Async
     @EventListener
     public void handleOrderStatusChanged(OrderStatusChangedEvent event) {
         log.info("OrderStatusChangedEvent received: OrderId={}, {} -> {}, by={}",

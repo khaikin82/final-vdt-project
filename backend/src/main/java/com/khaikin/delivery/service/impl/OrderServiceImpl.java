@@ -19,9 +19,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
+// import org.springframework.cache.annotation.CacheEvict;
+// import org.springframework.cache.annotation.Cacheable;
+// import org.springframework.cache.annotation.Caching;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,7 +35,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -82,7 +81,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Cacheable(value = "orders", key = "#id")
+    // @Cacheable(value = "orders", key = "#id")
     public OrderResponse getOrderById(Long id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order", "orderId", id));
@@ -90,7 +89,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Cacheable(value = "orders", key = "#orderCode")
+    // @Cacheable(value = "orders", key = "#orderCode")
     public OrderResponse getOrderByCode(String orderCode) {
         Order order = orderRepository.findByOrderCode(orderCode)
                 .orElseThrow(() -> new ResourceNotFoundException("Order", "orderCode", orderCode));
@@ -180,9 +179,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Caching(evict = {
-            @CacheEvict(value = "orders", allEntries = true)
-    })
+    // @Caching(evict = {
+    //         @CacheEvict(value = "orders", allEntries = true)
+    // })
     public OrderResponse assignOrder(Long orderId, String staffUsername, String adminUsername) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException("Order", "orderId", orderId));
@@ -209,9 +208,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Caching(evict = {
-            @CacheEvict(value = "orders", allEntries = true)
-    })
+    // @Caching(evict = {
+    //         @CacheEvict(value = "orders", allEntries = true)
+    // })
     public OrderResponse assignOrder(String orderCode, String staffUsername, String adminUsername) {
         Order order = orderRepository.findByOrderCode(orderCode)
                 .orElseThrow(() -> new ResourceNotFoundException("Order", "orderCode", orderCode));
@@ -239,9 +238,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional
     @Override
-    @Caching(evict = {
-            @CacheEvict(value = "orders", allEntries = true)
-    })
+    // @Caching(evict = {
+    //         @CacheEvict(value = "orders", allEntries = true)
+    // })
     public OrderResponse updateOrder(Long orderId, CreateOrderRequest request, String username) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException("Order", "orderId", orderId));
@@ -263,9 +262,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional
     @Override
-    @Caching(evict = {
-            @CacheEvict(value = "orders", allEntries = true)
-    })
+    // @Caching(evict = {
+    //         @CacheEvict(value = "orders", allEntries = true)
+    // })
     public OrderResponse updateStatus(Long orderId, OrderStatus newStatus, String username) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException("Order", "orderId", orderId));
@@ -291,9 +290,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Caching(evict = {
-            @CacheEvict(value = "orders", allEntries = true)
-    })
+    // @Caching(evict = {
+    //         @CacheEvict(value = "orders", allEntries = true)
+    // })
     public OrderResponse updateStatus(String orderCode, OrderStatus newStatus, String username) {
         Order order = orderRepository.findByOrderCode(orderCode)
                 .orElseThrow(() -> new ResourceNotFoundException("Order", "orderCode", orderCode));
@@ -319,9 +318,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Caching(evict = {
-            @CacheEvict(value = "orders", allEntries = true)
-    })
+    // @Caching(evict = {
+    //         @CacheEvict(value = "orders", allEntries = true)
+    // })
     public void deleteOrderById(Long id) {
         Order existingOrder = orderRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order", "orderId", id));

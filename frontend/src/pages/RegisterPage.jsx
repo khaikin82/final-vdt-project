@@ -114,7 +114,7 @@ function RegisterPage() {
         </div>
 
         <div className="mb-6">
-          <label className="block mb-1">Nhập lại Password</label>
+          <label className="block mb-1">Re-enter password</label>
           <input
             type="password"
             className="w-full border border-gray-300 px-3 py-2 rounded"

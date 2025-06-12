@@ -5,6 +5,7 @@ import com.khaikin.delivery.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 public class OrderCreatedEventListener {
     private final EmailService emailService;
 
+    @Async
     @EventListener
     public void handleOrderCreatedEvent(OrderCreatedEvent event) {
         emailService.sendOrderConfirmationEmail(event.getCustomerEmail(), event.getOrderId());
